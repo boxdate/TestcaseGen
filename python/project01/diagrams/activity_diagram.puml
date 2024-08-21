@@ -1,3 +1,5 @@
+'sample diagram
+
 @startuml
 if (Condition payment > 5) then (yes)
 ' Condition payment > 5

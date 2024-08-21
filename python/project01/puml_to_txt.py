@@ -2,7 +2,7 @@
 puml_to_txt.py
 
 Autor: boxdate
-First Publish: 21th Aug 2024
+First Publish: 22th Aug 2024
 
 examination:
 pumlファイルをtxtファイルに変換する。

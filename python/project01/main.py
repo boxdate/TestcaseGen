@@ -2,7 +2,7 @@
 Test Generation tool for PlantUML
 
 Autor: boxdate
-First Publish: 21th Aug 2024
+First Publish: 22th Aug 2024
 
 Purpose this tool:
 PlantUMLの各種ダイアグラムからテストケースを自動生成し、ソースコードのVerifyするための

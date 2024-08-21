@@ -2,7 +2,7 @@
 generate_test_cases.py
 
 Autor: boxdate
-First Publish: 21th Aug 2024
+First Publish: 22th Aug 2024
 
 examination:
 正規表現で抽出したテスト条件から、境界値テストのテストケースを生成する。
