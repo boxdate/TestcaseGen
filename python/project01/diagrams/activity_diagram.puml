@@ -1,0 +1,7 @@
+@startuml
+if (Condition payment > 5) then (yes)
+' Condition payment > 5
+:print $5;
+else 
+:print not $5;
+@enduml
