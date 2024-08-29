@@ -35,7 +35,7 @@ examination:
 テストケース生成ツールの全体の処理フローをまとめ、テストケースを生成し、outputに保存する。
 --------------------------------------------------------------------------------------------"""
 
-from extract_conditions import extract_conditions
+from extract_conditions import ConditionExtractor
 from generate_test_cases import TestCaseGenerator, TestCaseWriter
 import puml_to_txt
 
@@ -50,7 +50,8 @@ def main():
     puml_to_txt.convert_puml_to_txt(puml_file_path, activity_diagram_text_file_path)
     
     # 正規表現で抽出したテスト条件を表示する
-    conditions = extract_conditions(activity_diagram_text_file_path)
+    extractor = ConditionExtractor(activity_diagram_text_file_path)
+    conditions = extractor.extract_conditions()
     print("This activity diagram's test conditions: ", conditions)
     
     # pytestで使用するテストケースを生成する
