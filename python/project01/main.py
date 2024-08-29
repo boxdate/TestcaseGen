@@ -35,8 +35,8 @@ examination:
 テストケース生成ツールの全体の処理フローをまとめ、テストケースを生成し、outputに保存する。
 --------------------------------------------------------------------------------------------"""
 
-import extract_conditions
-import generate_test_cases
+from extract_conditions import extract_conditions
+from generate_test_cases import TestCaseGenerator, TestCaseWriter
 import puml_to_txt
 
 def main():
@@ -50,19 +50,17 @@ def main():
     puml_to_txt.convert_puml_to_txt(puml_file_path, activity_diagram_text_file_path)
     
     # 正規表現で抽出したテスト条件を表示する
-    conditions = extract_conditions.extract_conditions(activity_diagram_text_file_path)
+    conditions = extract_conditions(activity_diagram_text_file_path)
     print("This activity diagram's test conditions: ", conditions)
     
     # pytestで使用するテストケースを生成する
-    test_cases = generate_test_cases.generate_test_cases(conditions)
+    generator = TestCaseGenerator(conditions)
+    test_cases = generator.generate_test_cases()
     print("This activitiy diagram's testcases: ", test_cases)
     
     # pytestで利用可能な.py形式のテストケースを生成する
-    with open(generate_test_cases_file_path, 'w') as f:
-        f.write('import pytest\n\n')
-        f.write('def test_generated_cases():\n')
-        for i, case in enumerate(test_cases):
-            f.write(f" assert {case['var']}{case['condition']}{case['value']}\n")
+    writer = TestCaseWriter(test_cases, generate_test_cases_file_path)
+    writer.write_to_file()
     
     print(f"Test cases have been generated and saved to {generate_test_cases_file_path}")
 
