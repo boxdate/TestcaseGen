@@ -1,9 +1,9 @@
 'sample diagram
 
 @startuml
-if (Condition payment > 5) then (yes)
-' Condition payment > 5
-:print $5;
+if (temperature > 30 && humidity >= 70) then (yes)
+' temperature > 30 && humidity >= 60
+    :air conditioner is Dry mode;
 else 
-:print not $5;
+    :air conditioner is cooling mode;
 @enduml

@@ -8,6 +8,8 @@ examination:
 正規表現で抽出したテスト条件から、境界値テストのテストケースを生成する。
 --------------------------------------------------------------------------------------------"""
 
+import re
+
 # 境界値テスト生成クラス
 class BoundaryValueTestCaseGenerator:
     def generate(self, var, value, condition):
@@ -33,22 +35,27 @@ class TestCaseGenerator:
 
     def generate_test_cases(self):
         for condition in self.conditions:
-            if '>=' in condition:
-                var, value = condition.split('>=')
-                self.test_cases.extend(self.boundary_value_generator.generate(var.strip(), value.strip(), '>='))
-                self.test_cases.extend(self.equivalence_partitioning_generator.generate(var.strip(), value.strip(), '>='))
-            elif '>' in condition:
-                var, value = condition.split('>')
-                self.test_cases.extend(self.boundary_value_generator.generate(var.strip(), value.strip(), '>'))
-                self.test_cases.extend(self.equivalence_partitioning_generator.generate(var.strip(), value.strip(), '>'))
-            elif '<=' in condition:
-                var, value = condition.split('<=')
-                self.test_cases.extend(self.boundary_value_generator.generate(var.strip(), value.strip(), '<='))
-                self.test_cases.extend(self.equivalence_partitioning_generator.generate(var.strip(), value.strip(), '<='))
-            elif '<' in condition:
-                var, value = condition.split('<')
-                self.test_cases.extend(self.boundary_value_generator.generate(var.strip(), value.strip(), '<'))
-                self.test_cases.extend(self.equivalence_partitioning_generator.generate(var.strip(), value.strip(), '<'))
+            sub_conditions = re.split(r'\s*&&\s*\|\s*\|\|\s', condition)
+            for sub_condition in sub_conditions:
+                comparisons = re.findall(r'(\w+)\s*([><]=?)\s*(\d+)', sub_condition)
+                for var, op, value in comparisons:
+                
+                    if op == '>=':
+#                        var, value = sub_condition.split('>=')
+                        self.test_cases.extend(self.boundary_value_generator.generate(var.strip(), value.strip(), '>='))
+                        self.test_cases.extend(self.equivalence_partitioning_generator.generate(var.strip(), value.strip(), '>='))
+                    elif '>' in op:
+#                        var, value = sub_condition.split('>')
+                        self.test_cases.extend(self.boundary_value_generator.generate(var.strip(), value.strip(), '>'))
+                        self.test_cases.extend(self.equivalence_partitioning_generator.generate(var.strip(), value.strip(), '>'))
+                    elif '<=' in op:
+#                        var, value = sub_condition.split('<=')
+                        self.test_cases.extend(self.boundary_value_generator.generate(var.strip(), value.strip(), '<='))
+                        self.test_cases.extend(self.equivalence_partitioning_generator.generate(var.strip(), value.strip(), '<='))
+                    elif '<' in op:
+#                        var, value = sub_condition.split('<')
+                        self.test_cases.extend(self.boundary_value_generator.generate(var.strip(), value.strip(), '<'))
+                        self.test_cases.extend(self.equivalence_partitioning_generator.generate(var.strip(), value.strip(), '<'))
         return self.test_cases
 
 # テストケース出力クラス
